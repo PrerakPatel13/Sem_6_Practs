@@ -1,41 +1,25 @@
-import math
+import math 
+def structure(p, q, r): 
+    v = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1]) 
+    if v == 0: 
+        return 0 
+    return 1 if v > 0 else 2  
 
-def orientation(p, q, r):
-    val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
-  
-    if val == 0:
-        return 0
-    elif val > 0:
-        return 1
-    else:
-        return 2
-
-def graham_scan(points):
-    n = len(points)
-    if n < 3:
-        return None
-  
-    min_point = min(points, key=lambda x: (x[1], x[0]))
-    min_index = points.index(min_point)
-
-    points[0], points[min_index] = points[min_index], points[0]
-
-    def polar_angle(p):
-        return math.atan2(p[1] - points[0][1], p[0] - points[0][0])
-
-    points[1:] = sorted(points[1:], key=polar_angle)
-
-    stack = [points[0], points[1], points[2]]
-
-    for i in range(3, n):
-        while len(stack) > 1 and orientation(stack[-2], stack[-1], points[i]) != 2:
-            stack.pop()
-        stack.append(points[i])
-
-    return stack
-
-points = [(0, 3), (1, 1), (2, 2), (4, 4), (0, 0), (1, 2), (3, 1), (3, 3)]
-convex_hull = graham_scan(points)
-print("Convex Hull Points:")
-for point in convex_hull:
-    print(point)
+def gs(points): 
+    n = len(points) 
+    if n < 3: 
+        return [] 
+    min_pt = min(points, key=lambda x: (x[1], x[0])) 
+    print(min_pt)
+    sort_pts = sorted(points, key=lambda x: (math.atan2(x[1] - min_pt[1], x[0] - min_pt[0]), x)) 
+    print(sort_pts)
+    stack = [sort_pts[0], sort_pts[1], sort_pts[2]] 
+    print(f"After addition 3 points , stack : {stack}") 
+    for i in range(3, n): 
+        while len(stack) > 1 and structure(stack[-2], stack[-1], sort_pts[i]) != 2: 
+            stack.pop() 
+        stack.append(sort_pts[i]) 
+        print(f"adding {sort_pts[i]} --> stack : {stack}") 
+    return stack 
+points =[(0, 0), (3, 1), (1, 4), (3, 3), (5, 2), (5, 5), (9, 6), (7, 0)]
+print(f"Convex hull will be : {gs(points)}") 
