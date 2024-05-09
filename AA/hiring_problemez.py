@@ -26,7 +26,7 @@ for i in range(len(candidates)):
 
 max = -1
 for i in interviewed:
-    if max<i:
+    if i>max:
         hired.append(i)
         max = i
 
