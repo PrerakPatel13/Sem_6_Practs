@@ -1,30 +1,17 @@
 import random
 
 candidates = [
-    (0, 8.5, 2),
-    (1, 7.8, 3),
-    (2, 9.2, 1),
-    (3, 7.0, 4),
-    (4, 8.0, 2),
-    (5, 8.7, 3),
-    (6, 9.0, 2),
-    (7, 7.5, 4),
-    (8, 8.3, 1),
-    (9, 9.5, 3),
+    (0, 8.5, 2,'analyst'),
+    (1, 7.8, 3,'sales'),
+    (2, 9.2, 1,'analyst'),
+    (3, 7.0, 4,'sales'),
+    (4, 8.0, 2,'developer'),
+    (5, 8.7, 3,'sales'),
+    (6, 9.0, 2,'developer'),
+    (7, 7.5, 4,'sales'),
+    (8, 8.3, 1,'sales'),
+    (9, 9.5, 3,'analyst'),
 ]
-
-roles = {
-    0: 'analyst',
-    1: 'sales',
-    2: 'analyst',
-    3: 'developer',
-    4: 'analyst',
-    5: 'sales',
-    6: 'analyst',
-    7: 'developer',
-    8: 'analyst',
-    9: 'sales',
-}
 
 cgpa_weightage = 0.5
 experience_weightage = 0.4
@@ -37,7 +24,7 @@ candidates_copy = candidates.copy()
 
 for i in range(len(candidates)):
     selected_candidate = random.choice(candidates_copy)
-    interviewed_candidates.append(selected_candidate + (roles[i],))
+    interviewed_candidates.append(selected_candidate)
     candidates_copy.remove(selected_candidate)
 
 num_to_hire = random.randint(1, len(interviewed_candidates))
