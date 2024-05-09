@@ -7,7 +7,7 @@ def cost_calc(size):
     potential=1
     prevPotential=0
     amortizedCost=totalCost+potential
-    print("i\tP.S\tS\tD.C\tI\tT.C\tPot\tAm.C")
+    print("i\tprevious_size\tcurrent_size\tdoubling_cost\tinsertion_cost\ttotal_cost\tpotential\tamortized_cost")  
     for i in range(1,size+1):
         print(f"\n{i}\t{prevSize}\t{currSize}\t{doublingCost}\t{insertionCost}\t{totalCost}\t{potential}\t{amortizedCost}")
         prevSize=currSize

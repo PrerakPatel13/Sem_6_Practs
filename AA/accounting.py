@@ -18,7 +18,7 @@ def cost_calculation(size):
     bank_balance = amortized_cost - total_cost
     current_size = 1
     previous_size = 1
-        
+    print("i\tprevious_size\tcurrent_size\tdoubling_cost\tinsertion_cost\ttotal_cost\tamortized_cost\tbank_balance")    
     for i in range(1, size + 1):
         print(f"{i}\t{previous_size}\t{current_size}\t{doubling_cost}\t{insertion_cost}\t{total_cost}\t{amortized_cost}\t{bank_balance}")
         previous_size = current_size
