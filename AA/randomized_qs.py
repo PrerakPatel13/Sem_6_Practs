@@ -8,6 +8,7 @@ def randomizedqs(arr):
         pivot = random.choice(arr)
         left = []
         right = []
+        middle=[]
         for i in range(len(arr)):
             if arr[i] < pivot:
                 left.append(arr[i])
@@ -15,26 +16,25 @@ def randomizedqs(arr):
             elif arr[i] > pivot:
                 right.append(arr[i])
                 c1+=1
-        return randomizedqs(left) + [pivot] + randomizedqs(right)
-
+            else:
+                middle.append(pivot)
+        return randomizedqs(left) + middle + randomizedqs(right)
 def quicksort(arr):
     global c2
-    if len(arr) <= 1:
+    if len(arr)<= 1:
         return arr
     else:
         pivot = arr[0]
         left = []
         right = []
-        for i in range(1, len(arr)):
+        for i in range(1,len(arr)):
+            c2+=1
             if arr[i] < pivot:
                 left.append(arr[i])
-                c2+=1
             else:
                 right.append(arr[i])
-                c2+=1
-        return quicksort(left) + [pivot] + quicksort(right)
-        
-arr = [i for i in range(500)]
+        return quicksort(left) + [pivot] + quicksort(right)        
+arr = [random.randint(0, 499) for i in range(500)]
 print('Normal Quicksort')
 print("Sorted Array:", quicksort(arr))
 print("Number of Comparisons:", c2)
