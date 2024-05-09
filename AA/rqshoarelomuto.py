@@ -13,7 +13,22 @@ def lumoto_base(arr,low,high):
         p = start+1
         lumoto_base(arr,low,p-1)
         lumoto_base(arr,p+1,high)
-        
+
+
+def lumoto_random(arr,low,high):
+    if low<high:
+        start = low - 1
+        k = random.randint(low,high)
+        arr[k],arr[high] = arr[high],arr[k]
+        pivot = high
+        for end in range(low,high):
+            if arr[end] <= arr[pivot]:
+                start+=1
+                arr[start],arr[end] = arr[end],arr[start]
+        arr[start+1],arr[high] = arr[high],arr[start+1]
+        p = start+1
+        lumoto_base(arr,low,p-1)
+        lumoto_base(arr,p+1,high)        
 
 def hoare_base(arr,low,high):
     if low<high:
@@ -30,21 +45,6 @@ def hoare_base(arr,low,high):
         arr[end],arr[pivot] = arr[pivot],arr[end]
         hoare_base(arr,low,end-1)
         hoare_base(arr,end+1,high)
-
-def lumoto_random(arr,low,high):
-    if low<high:
-        start = low - 1
-        k = random.randint(low,high)
-        arr[k],arr[high] = arr[high],arr[k]
-        pivot = high
-        for end in range(low,high):
-            if arr[end] <= arr[pivot]:
-                start+=1
-                arr[start],arr[end] = arr[end],arr[start]
-        arr[start+1],arr[high] = arr[high],arr[start+1]
-        p = start+1
-        lumoto_base(arr,low,p-1)
-        lumoto_base(arr,p+1,high)
 
 def hoare_random(arr,low,high):
     if low<high:
