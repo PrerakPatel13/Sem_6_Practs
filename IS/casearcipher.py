@@ -25,7 +25,7 @@ def decrypt(key, message):
     return result
 
 def main():
-    word = "Dishant"
+    word = "information security"
     encrypted = encrypt(3,word)
     print(encrypted)
     decrypted = decrypt(3,encrypted)
