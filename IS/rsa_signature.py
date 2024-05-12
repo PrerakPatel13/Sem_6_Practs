@@ -1,49 +1,42 @@
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives import hashes
-from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.asymmetric import rsa
-
-def generate_key_pair():
-    private_key = rsa.generate_private_key(
-        public_exponent=65537,
-        key_size=2048,
-        backend=default_backend()
-    )
-    
-    public_key = private_key.public_key()
-    return private_key, public_key
-
-def sign_message(private_key, message):
-    signature = private_key.sign(
-        message,
-        padding.PSS(
-            mgf=padding.MGF1(hashes.SHA256()),
-            salt_length=padding.PSS.MAX_LENGTH
-        ),
-        hashes.SHA256()
-    )
-    return signature
-
-def verify_signature(public_key, message, signature):
-    try:
-        public_key.verify(
-            signature,
-            message,
-            padding.PSS(
-                mgf=padding.MGF1(hashes.SHA256()),
-                salt_length=padding.PSS.MAX_LENGTH
-            ),
-            hashes.SHA256()
-        )
-        return True
-    except Exception as e:
-        print(f"Signature verification failed: {e}")
+import random, hashlib
+def is_prime(n):
+    if n <= 1:
         return False
-
-private_key, public_key = generate_key_pair()
-message = b"Hello, this is a test message."
-signature = sign_message(private_key, message)
-print("Message:", message)
-print("Signature:", signature.hex())
-verification_result = verify_signature(public_key, message, signature)
-print("Signature Verification Result:", verification_result)
+    for i in range(2, int(n**0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+def generate_prime_number():
+    while True:
+        num = random.randint(100, 1000)
+        if is_prime(num):
+            return num
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+def generate_keys():
+    p = generate_prime_number()
+    q = generate_prime_number()
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    e = random.randint(1, phi)
+    while gcd(e, phi) != 1:
+        e = random.randint(1, phi)
+    d = pow(e, -1, phi)
+    return (e, n), (d, n)
+def encrypt(message, public_key):
+    e, n = public_key
+    encrypted_message = [pow(ord(char), e, n) for char in message]
+    return encrypted_message
+def decrypt(encrypted_message, private_key):
+    d, n = private_key
+    decrypted_message = [chr(pow(char, d, n)) for char in encrypted_message]
+    return ''.join(decrypted_message)
+message = "Hello, World!"
+hashed_message = hashlib.md5(message.encode()).hexdigest()
+public_key, private_key = generate_keys()
+encrypted_message = encrypt(message, public_key)
+decrypted_message = decrypt(encrypted_message, private_key)
+unhashed_message = hashlib.md5(decrypted_message.encode()).hexdigest()
+print(f"Original message:{message}\nHashed message:{hashed_message}\nEncryptedMeessage:{encrypted_message}\nDecryptedMsg:{decrypted_message}\nUnhashedMsg:{unhashed_message}")
