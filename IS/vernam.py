@@ -1,6 +1,6 @@
 def encDec(word, key):
     if len(word) != len(key):
-        raise ValueError("Word and key must have the same length.")
+        print("Word and key must have the same length.")
     result = []
     for i in range(len(word)):
         res = (ord(word[i]) - 65) ^ (ord(key[i]) - 65)
