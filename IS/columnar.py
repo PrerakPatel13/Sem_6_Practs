@@ -1,16 +1,11 @@
 import math
-
-pt = input("Enter the plaintext : ").upper()
-key = input("Enter the key : ").upper()
-
 def find_rank(key):
     rank = 0
     for i in sorted(key):
-        key = key.replace(i, str(rank), 1)
+        key = key.replace(i,str(rank),1)
         rank += 1
     key = [int(i) for i in key]
     return key
-
 
 def encrypt(pt, key):
     cols = len(key)
@@ -21,36 +16,34 @@ def encrypt(pt, key):
     matrix = [list(pt[i : i + cols]) for i in range(0, len(pt), cols)]
     for i in range(rows):
         print(matrix[i])
-    ciphertext = ["*" for i in range(cols)]
-    j = 0
-    for i in key_rank:
-        ciphertext[i] = [row[j] for row in matrix]
-        j += 1
-    res = []
-    for i in ciphertext:
-        res.extend(i)
-    return "".join(res)
-
+    ciphertext = ""
+    for ind in range(len(key_rank)):
+        col=key_rank.index(ind)
+        for i in range(rows):
+            ciphertext+=matrix[i][col] 
+    return ciphertext
 
 def decrypt(cip, key):
     cols = len(key)
     rows = math.ceil(len(cip) / cols)
     key_rank = find_rank(key)
-    cip += "".join(["X"] * (rows * cols - len(cip)))
-    cip_mat  = [list(cip[i:i+rows]) for i in range(0, len(cip), rows)]
-    res = []
-    for i in range(rows):
-        a = ["*"] *(len(key_rank))
-        count = 0
-        for r in key_rank:
-            a[count] = cip_mat[r][i]
-            count +=1
-        res.extend(a)
-    return "".join(res).rstrip("X")
+    count=0
+    cip+= "".join(["X"] * (rows * cols - len(cip)))
+    cip_mat = [[0 for col in range(cols)] for row in range(rows)]
+    for ind in range(len(key_rank)):
+        col=key_rank.index(ind)
+        for row in range(rows):
+            cip_mat[row][col] = cip[count]
+            count += 1
+    result=""
+    for row in cip_mat:
+        result+=''.join(row)
+    return result.rstrip('X')
 
-
-print(f"\nPlain text : {pt}\nKey:{key}\n")
-ciphertext = encrypt(pt, key)
-print(f"After encryption, Cipher Text : {ciphertext}\n")
-decrypted_text = decrypt(ciphertext, key)
-print(f"After decryption, Plain Text : {decrypted_text}")
+pt,key='WEHOPETHATINDIAWINSTHEUPCOMINGWORLDCUP','VIRAT'
+ciphertext = encrypt(pt,key)
+decrypted=decrypt(ciphertext,key)
+print(f"After encryption, Cipher Text : {ciphertext}\nAfter decryption, Plain Text : {decrypted}")
+doubleCipher=encrypt(ciphertext,key)
+doubleDecrypted=decrypt(decrypt(doubleCipher,key),key)
+print(f"After double encryption, Cipher Text : {doubleCipher}\nAfter double decryption, Plain Text : {doubleDecrypted}")
