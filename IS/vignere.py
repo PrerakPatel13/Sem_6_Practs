@@ -1,32 +1,15 @@
-def encrypt_vigenere(plain_text, key):
-    encrypted_text = ""
-    for i in range(len(plain_text)):
-        char = plain_text[i]
-        if char.isalpha():
-            shift = ord(key[i % len(key)]) - ord('A')
-            if char.isupper():
-                encrypted_char = chr((ord(char) + shift - ord('A')) % 26 + ord('A'))
-            encrypted_text += encrypted_char  
-    return encrypted_text
-
-def decrypt_vigenere(encrypted_text, key):
-    decrypted_text = ""
-    for i in range(len(encrypted_text)):
-        char = encrypted_text[i]
-        if char.isalpha():
-            shift = ord(key[i % len(key)]) - ord('A')
-            if char.isupper():
-                decrypted_char = chr((ord(char) - shift - ord('A')) % 26 + ord('A'))
-            decrypted_text += decrypted_char
-    return decrypted_text
-
-plain_text = input("Enter Plain text: ")
-key = input("Enter key: ")
-plain_text = plain_text.upper()
-key = key.upper()
-
-encrypted_text = encrypt_vigenere(plain_text, key)
-print("Encrypted text:", encrypted_text)
-
-decrypted_text = decrypt_vigenere(encrypted_text, key)
-print("Decrypted text:", decrypted_text)
+plain_txt = input("Enter plaintext : ").upper()
+key = input("Enter Key : ").upper()
+padd_key = key
+if len(plain_txt) == len(key):
+    padd_key = key
+else:
+    for i in range(len(plain_txt)-len(key)):
+        padd_key += key[i%len(key)]
+encrpyted,decrpyted = "",""
+for i in range(len(plain_txt)):
+    encrpyted += chr(((ord(plain_txt[i]) + ord(padd_key[i])) % 26)+65)
+for i in range(len(plain_txt)):
+    decrpyted += chr(((ord(encrpyted[i]) - ord(padd_key[i])) % 26)+65)
+print(f"\nPlain Text : {plain_txt}\nKey : {key}\nPadded Key : {padd_key}\n")
+print(f"after encrption, cipher text : {encrpyted}\nafter decyprtion, decrypted text : {decrpyted}")
