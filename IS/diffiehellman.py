@@ -5,20 +5,16 @@ def is_prime(n):
         if n % i == 0:
             return False
     return True
-def primitive_check(g, p, list):
-    for i in range(1, p):
-        list.append(pow(g, i) % p)
-    for i in range(1, p):
-        if list.count(i) > 1:
-            list.clear()
-            return -1
-        return 1
-list=[]      
+def isPrimitiveRoot(g,p):
+    listt=[pow(g,i,p) for i in range(p-1)]
+    for i in listt:
+        if listt.count(i)>1:
+            return 0
+    return 1 
 while True:
     p=int(input("Enter values of p:"))
     g=int(input("Enter values of g:"))
-    if ((is_prime(p)==True) and primitive_check(g,p,list)):
-        print("correct input ")
+    if (is_prime(p) and isPrimitiveRoot(g,p)):
         a=int(input("Enter values of a:"))
         b=int(input("Enter values of b:"))
         if a >= p or b >= p:
@@ -27,12 +23,7 @@ while True:
             XA,XB=(g**a) % p  , (g**b) % p
             AK,BK = (XB**a) % p  , (XA**b) % p
             print(f"\nSecret Key For User 1 Is {AK}\nSecret Key For User 2 Is {BK}\n")
-            if AK == BK:
-                print("Keys Have Been Exchanged Successfully")
-            else:
-                print("Keys Have Not Been Exchanged Successfully")
+            print("Keys Have Been Exchanged Successfully") if AK == BK else print("Keys Have Not Been Exchanged Successfully")
             break    
     else:
         print("enter correct values")
-        break   
-
