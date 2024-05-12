@@ -24,10 +24,10 @@ while True:
         if a >= p or b >= p:
             print(f"Private Key Of Both The Users Should Be Less Than {p}!")
         else:
-            y1, y2 = pow(g, a) % p, pow(g, b) % p
-            k1, k2 = pow(y2, a) % p, pow(y1, b) % p
-            print(f"\nSecret Key For User 1 Is {k1}\nSecret Key For User 2 Is {k2}\n")
-            if k1 == k2:
+            XA,XB=(g**a) % p  , (g**b) % p
+            AK,BK = (XB**a) % p  , (XA**b) % p
+            print(f"\nSecret Key For User 1 Is {AK}\nSecret Key For User 2 Is {BK}\n")
+            if AK == BK:
                 print("Keys Have Been Exchanged Successfully")
             else:
                 print("Keys Have Not Been Exchanged Successfully")
